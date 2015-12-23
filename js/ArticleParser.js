@@ -77,7 +77,7 @@
       {
          var $container = listOfParagraphContainers[i];
          if(    $containerWithTheMostParagraphs.length === 0
-             || $container.text().length > $containerWithTheMostParagraphs.text().length * 2 )
+             || $container.children("p").text().length > $containerWithTheMostParagraphs.children("p").text().length * 2 )
          {
             $containerWithTheMostParagraphs = $container;
          }
@@ -104,6 +104,12 @@
          $contentContainer = $( sSelector );
          return ( $contentContainer.length > 0 );
       });
+
+      //Try to find the 'article' HTML5 element
+      if ( $contentContainer.length === 0)
+      {
+          $contentContainer = $("article");
+      }
 
       if( $contentContainer.length === 0 )
       {
@@ -182,7 +188,7 @@
    {
       // Find the heading elment that's closest to the content container.
 
-      var $title = $()
+      var $title = $();
 
       var listOfHeadingElementTags = [ "h1", "h2", "h3" ];
       var listOfHeadingElements = [];
@@ -213,7 +219,7 @@
       }
 
       return $title;
-   }
+   };
 
 
 
@@ -239,7 +245,7 @@
 
          if( $title.length === 0 )
          {
-            $title = this._getHeadingElementClosestToContainer( eContentContainer )
+            $title = this._getHeadingElementClosestToContainer( eContentContainer );
          }
 
          // For styling purposes, make sure the title is a <h1> element.
@@ -414,5 +420,3 @@
 
 
 })();
-
-
