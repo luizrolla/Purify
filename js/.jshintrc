@@ -7,5 +7,5 @@
    "browser" : true,
    "multistr" : true,
    "laxbreak" : true,
-   "loopfunc", true
+   "loopfunc" : true
 }
