@@ -6,7 +6,19 @@
    {
       if( sMessage === "Purify" )
       {
-         (new ArticleView()).activate();
+        chrome.storage.sync.get({
+          bgColor: '#f7f7f7',
+          fgColor: '#000000',
+          fontSize: "15",
+          bodyFont: "Roboto",
+          titleFont: "Ubuntu",
+          bodyLoadFromGoogle: true,
+          titleLoadFromGoogle: true
+        },
+        function(items) {
+            (new ArticleView(items)).activate();
+        });
+
       }
    });
 
@@ -17,5 +29,3 @@
    // })
 
 })();
-
-

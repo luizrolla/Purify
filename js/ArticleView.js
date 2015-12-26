@@ -8,11 +8,12 @@
    // @brief   Singleton Class
    ////////////////////////////////////////////////////////////////////////////
 
-   window.ArticleView = function()
+   window.ArticleView = function(ops)
    {
       if( !ArticleView.prototype._instance )
       {
          ArticleView.prototype._instance = this;
+         this._setOptions(ops);
 
          this._createView();
 
@@ -20,14 +21,20 @@
          // for modifying its content.)
          this.$frame = this._createAndAppendFrame();
          this.$frame.contents().find("body").append( this.$view );
+
       }
 
-      return ArticleView.prototype._instance;
+      var instance = ArticleView.prototype._instance;
+      instance._setOptions(ops);
+
+      return instance;
    };
 
-
-
    ////////////////////////////////////////////////////////////////////////////
+
+   ArticleView.prototype._setOptions = function(ops) {
+     this._options = ops;
+   };
 
    ArticleView.prototype._createAndAppendFrame = function()
    {
@@ -52,17 +59,30 @@
       $frame.hide();
       $(document.body).append( $frame );
 
+
       // Note: The DOCTYPE is necessary for the stylesheet to work.
       var sFrameContent =
          "<!DOCTYPE html>" +
          "<html>" +
             "<head>" +
-               "<link href='//fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>" +
+              this._getFontCss() +
                "<link type='text/css' rel='stylesheet' href='" +
                   chrome.extension.getURL( "css/style.css" ) +
                "'></link>" +
             "</head>" +
             "<body>" +
+            //Put options for css
+            "<style id='customCss'>" +
+              "#article_view #article_view_dialog {" +
+                "background-color: " + this._options.bgColor + " ;" +
+                "color: " + this._options.fgColor + " ;"  +
+              "}" +
+              "html {" +
+                "font-size: " + this._options.fontSize + "px;" +
+              "}" +
+              "#article_view { font-family: "+ this._options.bodyFont +";}" +
+              "#article_view #article_title { font-family: "+ this._options.titleFont +";}" +
+            "</style>" +
             "</body>" +
          "</html>";
 
@@ -80,13 +100,28 @@
 
    ////////////////////////////////////////////////////////////////////////////
 
+   ArticleView.prototype._getFontCss = function () {
+
+     var fontcss = "";
+     if (this._options.bodyLoadFromGoogle) {
+       fontcss += "<link href='//fonts.googleapis.com/css?family=" + this._options.bodyFont.replace(/\s/g,"+") + "' rel='stylesheet' type='text/css'>";
+     }
+
+     if (this._options.titleLoadFromGoogle) {
+       fontcss += "<link href='//fonts.googleapis.com/css?family=" + this._options.titleFont.replace(/\s/g,"+") + "' rel='stylesheet' type='text/css'>";
+     }
+
+     return fontcss;
+
+   };
+
    ArticleView.prototype._createView = function()
    {
       // Note: Always use lower case in id and class to avoid case-sensitivity
       //       issue that can cause CSS selectors to not work.
 
       var $view = $(
-         "<div id='article_view' class='sans_serif'>" +
+         "<div id='article_view'>" +
 
             "<div id='article_view_dialog'>" +
 
@@ -105,15 +140,15 @@
 
                   "<span class='button' id='text_style_button'></span>" +
                   "<div id='text_style_menu' style='display: none;'>" +
-                     "<div class='text_style_menu_section' id='font_family_setting'>" +
+                     /*"<div class='text_style_menu_section' id='font_family_setting'>" +
                         "<div class='control_label'>Font Family</div>" +
                         "<span class='control_button' id='sans_serif_button'>Sans Serif</span>" +  // minus
                         "<span class='control_button' id='serif_button'>Serif</span>" +
-                     "</div>" +
+                     "</div>" +*/
                      "<div class='text_style_menu_section' id='font_size_setting'>" +
                         "<div class='control_label'>Font Size</div>" +
                         "<span class='control_button' id='decrease_font_size_button'> &#8722; </span>" +  // minus
-                        "<span id='current_font_size'> 15 </span>" +
+                        "<span id='current_font_size'> "+ this._options.fontSize +" </span>" +
                         "<span class='control_button' id='increase_font_size_button'> &#43; </span>" +    // plus
                      "</div>" +
                      "<div class='down_arrow'></div>" +
@@ -405,6 +440,8 @@
    {
       var self = this;
 
+      /*
+
       chrome.extension.sendMessage(
          { action : "getLocalStorage",
            name   : "PurifySettingRootFontSize" },
@@ -432,7 +469,7 @@
                self.$view.addClass( oResponse.PurifySettingRootFontFamily );
             }
          }
-      );
+      );*/
    };
 
 

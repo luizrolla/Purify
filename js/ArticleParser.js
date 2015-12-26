@@ -5,7 +5,7 @@
    var _IGNORE_CLASS = "nbouibnonwenfofj_igore";
 
    var _ignoredTags = [
-      "SCRIPT", "IFRAME", "STYLE", "OBJECT", "FOOTER", "NAV" ];
+      "SCRIPT", "SVG", "IFRAME", "STYLE", "OBJECT", "FOOTER", "NAV" ];
 
 
 
@@ -135,18 +135,21 @@
 
       var shouldIgnore = false;
 
+      if (eElement.nodeType == Node.TEXT_NODE)
+        return false;
+
       if( eElement )
       {
          var $element = $( eElement );
-
          try
          {
             shouldIgnore = (
-                  $element.css( "float" ) === "left"
+                  eElement.nodeType != Node.ELEMENT_NODE
+               || $element.css( "float" ) === "left"
                || $element.css( "float" ) === "right"
                || $element.css( "position" ) === "absolute"
                || $element.hasClass( _IGNORE_CLASS )
-               || _ignoredTags.some( function( sTagName ) { return eElement.tagName === sTagName; } ) );
+               || _ignoredTags.some( function( sTagName ) { return eElement.tagName.toUpperCase() === sTagName; } ) );
          }
          catch( exception )
          {

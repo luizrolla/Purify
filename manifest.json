@@ -13,6 +13,11 @@
       "scripts": [ "js/background.js" ]
    },
 
+   "options_ui": {
+     "page": "options.html",
+     "chrome_style": true
+   },
+
    "content_scripts":
    [
       {
@@ -31,7 +36,7 @@
       "img/*.png"
    ],
 
-   "permissions": [ "contextMenus" ],
+   "permissions": [ "contextMenus", "storage"],
 
    "icons":
    {

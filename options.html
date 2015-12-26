@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Purify options</title>
+    <style>
+      #status {
+        background-color: lightgreen;
+        border-radius: 7px;
+        padding: 10px;
+        /*display: none;*/
+        position: absolute;
+        width: 160px;
+        left: 50%;
+        margin-left: -80px;
+        top: 20px;
+        opacity: 0;
+        transition: opacity 0.5s ease, z-index 0.5s ease;
+        z-index: -10;
+      }
+      #status.show {
+        /*display: block;*/
+        z-index: 10;
+        opacity: 1;
+      }
+      div label {
+        text-align: right;
+        padding-right: 10px;
+        width: 100px;
+        display: inline-block;
+      }
+      div.option {
+        margin-bottom: 10px;
+        height: 30px;
+        line-height: 30px;
+      }
+      div.buttons {
+        text-align: right;
+      }
+      body {
+        min-width: 500px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="option">
+      <label for="bgColor">Background color: </label> <input type="color" id="bgColor" />
+    </div>
+    <div class="option">
+      <label for="fgColor">Foreground color: </label> <input type="color" id="fgColor" />
+    </div>
+    <div class="option">
+      <label for="fontSize">Default font size: </label> <input type="number" id="fontSize" />
+    </div>
+    <div class="option">
+      <label for="bodyFont">Body font: </label>
+      <input type="text" id="bodyFont"/>
+      <input type="checkbox" id="bodyLoadFromGoogle"> Load from Google Fonts
+    </div>
+    <div class="option">
+      <label for="titleFont">Title font: </label>
+      <input type="text" id="titleFont"/>
+      <input type="checkbox" id="titleLoadFromGoogle"> Load from Google Fonts
+    </div>
+    <div id="status"></div>
+    <div class="buttons">
+        <button id="save">Save</button>
+    </div>
+
+
+    <script src="js/options.js"></script>
+  </body>
+</html>
