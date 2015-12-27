@@ -13,7 +13,8 @@
           bodyFont: "Roboto",
           titleFont: "Ubuntu",
           bodyLoadFromGoogle: true,
-          titleLoadFromGoogle: true
+          titleLoadFromGoogle: true,
+          singleColumn: false
         },
         function(items) {
             (new ArticleView(items)).activate();

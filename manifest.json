@@ -32,7 +32,7 @@
 
    "web_accessible_resources" :
    [
-      "css/style.css",
+      "css/*.css",
       "img/*.png"
    ],
 

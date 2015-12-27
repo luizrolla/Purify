@@ -59,6 +59,8 @@
       $frame.hide();
       $(document.body).append( $frame );
 
+      var styleUrl = this._options.singleColumn ? chrome.extension.getURL( "css/stylesc.css" ) :
+        chrome.extension.getURL( "css/style.css" );
 
       // Note: The DOCTYPE is necessary for the stylesheet to work.
       var sFrameContent =
@@ -66,22 +68,20 @@
          "<html>" +
             "<head>" +
               this._getFontCss() +
-               "<link type='text/css' rel='stylesheet' href='" +
-                  chrome.extension.getURL( "css/style.css" ) +
-               "'></link>" +
+               "<link type='text/css' rel='stylesheet' href='" + styleUrl + "'></link>" +
             "</head>" +
             "<body>" +
             //Put options for css
             "<style id='customCss'>" +
-              "#article_view #article_view_dialog {" +
+              ".purify_container {" +
                 "background-color: " + this._options.bgColor + " ;" +
                 "color: " + this._options.fgColor + " ;"  +
               "}" +
               "html {" +
                 "font-size: " + this._options.fontSize + "px;" +
               "}" +
-              "#article_view { font-family: "+ this._options.bodyFont +";}" +
-              "#article_view #article_title { font-family: "+ this._options.titleFont +";}" +
+              ".purify_container { font-family: "+ this._options.bodyFont +";}" +
+              ".purify_container article  h1 { font-family: "+ this._options.titleFont +";}" +
             "</style>" +
             "</body>" +
          "</html>";
@@ -121,24 +121,24 @@
       //       issue that can cause CSS selectors to not work.
 
       var $view = $(
-         "<div id='article_view'>" +
+         "<div class='purify_mask'>" +
 
-            "<div id='article_view_dialog'>" +
+            "<div class='purify_container'>" +
 
-               "<div id='article'>" +
-                  "<div id='article_title'></div>" +
-                  "<div id='article_content'></div>" +
+               "<article>" +
+                  "<h1></h1>" +
+                  "<div class='content'></div>" +
                   "<div id='column_width_ruler'></div>" +
-               "</div>" +
+               "</article>" +
 
-               "<div id='article_view_menu'>" +
-                  "<span class='button' id='close_button'></span>" +
-                  "<span class='button' id='right_column_button'></span>" +
-                  "<span class='button' id='left_column_button'></span>" +
-                  "<span class='button' id='help_button'></span>" +
-                  "<span class='button' id='full_screen_button'></span>" +
+               "<div class='menubar' id='article_view_menu'>" +
+                  "<span class='button close' id='close_button'></span>" +
+                  "<span class='button right_arrow' id='right_column_button'></span>" +
+                  "<span class='button left_arrow' id='left_column_button'></span>" +
+                  "<span class='button help' id='help_button'></span>" +
+                  "<span class='button full_screen' id='full_screen_button'></span>" +
 
-                  "<span class='button' id='text_style_button'></span>" +
+                  "<span class='button text_style' id='text_style_button'></span>" +
                   "<div id='text_style_menu' style='display: none;'>" +
                      /*"<div class='text_style_menu_section' id='font_family_setting'>" +
                         "<div class='control_label'>Font Family</div>" +
@@ -160,7 +160,7 @@
 
          "</div>" );
 
-      var $dialog = $view.find( "#article_view_dialog" );
+      var $dialog = $view.find( ".purify_container" );
       var $menu   = $view.find( "#article_view_menu" );
 
       this._initializeViewEventHandling( $view, $dialog );
@@ -171,9 +171,9 @@
       this.$view            = $view;
       this.$dialog          = $dialog;
       this.$menu            = $menu;
-      this.$article         = $view.find( "#article" );
-      this.$articleTitle    = $view.find( "#article_title" );
-      this.$articleContent  = $view.find( "#article_content" );
+      this.$article         = $view.find( "article" );
+      this.$articleTitle    = $view.find( "article h1" );
+      this.$articleContent  = $view.find( ".content" );
       this.$colWidthRuler   = $view.find( "#column_width_ruler" );
       this.$currentFontSize = $view.find( "#current_font_size" );
    };
@@ -478,22 +478,25 @@
 
    ArticleView.prototype._maximizeAndCenterDialog = function()
    {
-      var $container = this.$dialog;
-      var $window = $(window);
+      if (!this._options.singleColumn) {
+        var $container = this.$dialog;
+        var $window = $(window);
 
-      var iWindowWidth  = window.innerWidth  || $window.width();
-      var iWindowHeight = window.innerHeight || $window.height();  // $window.height() could return a much bigger value.
+        var iWindowWidth  = window.innerWidth  || $window.width();
+        var iWindowHeight = window.innerHeight || $window.height();  // $window.height() could return a much bigger value.
 
-      var iHorizontalPadding = $container.outerWidth()  - $container.width();
-      var iVerticalPadding   = $container.outerHeight() - $container.height();
+        var iHorizontalPadding = $container.outerWidth()  - $container.width();
+        var iVerticalPadding   = $container.outerHeight() - $container.height();
 
-      var MARGIN = 20;   // px; top + bottom; left + right
+        var MARGIN = 20;   // px; top + bottom; left + right
 
-      $container.width(  iWindowWidth  - (MARGIN * 2) - iHorizontalPadding );
-      $container.height( iWindowHeight - (MARGIN * 2) - iVerticalPadding   );
+        $container.width(  iWindowWidth  - (MARGIN * 2) - iHorizontalPadding );
+        $container.height( iWindowHeight - (MARGIN * 2) - iVerticalPadding   );
 
-      $container.css( { "left" : MARGIN + "px" } );
-      $container.css( { "top"  : MARGIN + "px" } );
+        $container.css( { "left" : MARGIN + "px" } );
+        $container.css( { "top"  : MARGIN + "px" } );
+      }
+
    };
 
 

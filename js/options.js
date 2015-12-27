@@ -1,22 +1,34 @@
 function get_option_values(optArray) {
   var values = {};
   for (var i = 0; i < optArray.length; i++) {
-    values[optArray[i]] = document.getElementById(optArray[i]).value;
-  }
+    if (document.getElementById(optArray[i]).type == "checkbox") {
+        values[optArray[i]] = document.getElementById(optArray[i]).checked;
+    } else {
+        values[optArray[i]] = document.getElementById(optArray[i]).value;
+    }
 
+  }
   return values;
 }
 
 function set_option_values(options) {
+  console.log(options);
   for (var opt in options) {
     if (options.hasOwnProperty(opt)) {
-      document.getElementById(opt).value = options[opt];
+      //boolean values
+      if (document.getElementById(opt).type == "checkbox") {
+          document.getElementById(opt).checked = options[opt];
+      } else {
+          document.getElementById(opt).value = options[opt];
+      }
+
     }
   }
 }
 
 function save_options() {
-  optionObject = get_option_values(["bgColor", "fgColor", "fontSize","bodyFont", "titleFont"]);
+  optionObject = get_option_values(["bgColor", "fgColor", "fontSize","bodyFont", "titleFont", "singleColumn",
+  "bodyLoadFromGoogle", "titleLoadFromGoogle"]);
   //console.log(bgColor);
   chrome.storage.sync.set(optionObject, function() {
     // Update status to let user know options were saved.
@@ -40,7 +52,8 @@ chrome.storage.sync.get({
   bodyFont: "Roboto",
   titleFont: "Ubuntu",
   bodyLoadFromGoogle: true,
-  titleLoadFromGoogle: true
+  titleLoadFromGoogle: true,
+  singleColumn: false
 }, set_option_values);
 }
 document.addEventListener('DOMContentLoaded', restore_options);

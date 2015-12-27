@@ -15,15 +15,12 @@
 
 .purify_container {
   display: block;
-  position: fixed;
+  position: static;
   background-color: #f7f7f7;
-  padding: 2rem;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  column-gap: 0;
-  -webkit-column-gap: 0;
-  column-width: 33rem;
-  -webkit-column-width: 33rem; }
+  width: 80%;
+  margin: 0 auto;
+  height: 100vh;
+  overflow-y: auto;
 }
 
 .purify_container::-webkit-scrollbar {
@@ -60,8 +57,8 @@
 .purify_container .menubar .button:active { background-color: #111111; }
 .purify_container .menubar .close {
   background-image: url("../img/button_close_16.png"); }
-.purify_container .menubar .left_arrow {background-image: url("../img/button_left_column_16.png")}
-.purify_container .menubar .right_arrow {background-image: url("../img/button_right_column_16.png")}
+.purify_container .menubar .left_arrow {display: none}
+.purify_container .menubar .right_arrow {display: none }
 .purify_container .menubar .help {
   background-image: url("../img/button_help_16.png"); }
 .purify_container .menubar .full_screen {
@@ -75,7 +72,7 @@
   text-align: center;
   position: fixed;
   bottom: 71px;
-  right: 175px;
+  right: 105px;
   background-color: #515151;
   cursor: default; }
 .purify_container .menubar #text_style_menu .down_arrow {
@@ -109,9 +106,9 @@
 .purify_container #decrease_font_size_button,
 .purify_container #increase_font_size_button {
   font-size: 17px; }
-.purify_container article {
-  margin-right: 2rem; }
-.purify_container article h1 {
+.purify_container > article {
+  margin: 0 5%; }
+.purify_container > article h1 {
   margin-bottom: 1.5rem;
   color: black;
   font-size: 2rem;

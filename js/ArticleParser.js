@@ -171,14 +171,14 @@
 
       if( $contentContainer.length > 0 )
       {
-         var $originalPrimaryTitle = this._getPrimaryTitle( $contentContainer );
+         var originalPrimaryTitle = this._getPrimaryTitle( $contentContainer );
 
-         var $primaryTitle = $originalPrimaryTitle.clone();
+         /*var $primaryTitle = $originalPrimaryTitle.clone();
 
          this._sanitizeElementAndDesendants( $primaryTitle );
-
+         */
          $title = $("<div></div>");
-         $title.append( $primaryTitle );
+         $title.append( originalPrimaryTitle );
       }
 
       return $title;
@@ -252,16 +252,16 @@
          }
 
          // For styling purposes, make sure the title is a <h1> element.
-         if(    $title.length > 0
+         /*if(    $title.length > 0
              && $title[0].tagName !== "H1" )
          {
             var $h1 = $("<h1></h1>");
             $h1.html( $title.html() );
             $title = $h1;
-         }
+         }*/
       }
 
-      return $title;
+      return $title.text();
    };
 
 
