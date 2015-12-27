@@ -105,12 +105,6 @@
          return ( $contentContainer.length > 0 );
       });
 
-      //Try to find the 'article' HTML5 element
-      if ( $contentContainer.length === 0)
-      {
-          $contentContainer = $("article");
-      }
-
       if( $contentContainer.length === 0 )
       {
          $contentContainer = this._findContainerWithTheMostParagraphs();

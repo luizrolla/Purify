@@ -24,7 +24,6 @@
   -webkit-column-gap: 0;
   column-width: 33rem;
   -webkit-column-width: 33rem; }
-}
 
 .purify_container::-webkit-scrollbar {
   width: 10px;

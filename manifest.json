@@ -8,6 +8,16 @@
 
    "manifest_version": 2,
 
+   "commands" : {
+     "activate_purify" : {
+       "suggested_key" : {
+         "default" : "Ctrl+Shift+P",
+         "mac" : "MacCtrl+Shift+P"
+       },
+       "description" : "Active purify reader"
+     }
+   },
+
    "background":
    {
       "scripts": [ "js/background.js" ]
